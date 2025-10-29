@@ -1,0 +1,27 @@
+{
+  "name": "accounts",
+  "version": "1.0.0",
+  "description": "projeto",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silvioggsantana/Accounts.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Silvio Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silvioggsantana/Accounts/issues"
+  },
+  "homepage": "https://github.com/silvioggsantana/Accounts#readme",
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "inquirer": "^12.10.0"
+  },
+  "type": "module"
+}
