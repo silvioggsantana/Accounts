@@ -231,6 +231,11 @@ function retirar(accountName, amount) {
         return operation()
     }
 
+    if(account.balance < amount){
+        console.log(chalk.bgRed.black("Valor indisponível"))
+        return withDraw()
+    }
+
     account.balance = parseFloat(account.balance) - parseFloat(amount) 
 
     fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(account))
