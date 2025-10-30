@@ -31,7 +31,7 @@ function operation(){
         } else if(answer.action === 'Depositar'){
             deposito()
         } else if(answer.action === 'Sacar'){
-
+            withDraw()
         } else if(answer.action === 'Sair'){
             process.exit()
         }
@@ -182,4 +182,58 @@ function getAccountbalance(){
     .catch((e) => {
         console.log(e)
     })
+}
+
+function withDraw() {
+    inquirer.prompt([
+        {
+            name:'accountName',
+            message:'digite o nome da sua conta',
+        }
+    ])
+    .then((answer) => {
+
+        const accountName = answer['accountName']
+
+        if(!checkAccount(accountName)){
+            withDraw()
+        }
+
+        inquirer.prompt([
+            {
+                name:'amount',
+                message:'Quanto você deseja sacar?',
+            }
+        ])
+        .then((answer) => {
+
+            const amount = answer['amount']
+
+            retirar(accountName, amount)
+            operation()
+        })
+        .catch((e) => {
+            console.log(e)
+        })
+    
+    })
+    .catch((e) => {
+        console.log(e)
+    })
+}
+
+function retirar(accountName, amount) {
+
+    const account = getAccount(accountName)
+
+    if(!amount){
+        console.log(chalk.bgRed.black("Ocorreu um erro, tente novamente mais tarde"))
+        return operation()
+    }
+
+    account.balance = parseFloat(account.balance) - parseFloat(amount) 
+
+    fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(account))
+    console.log(chalk.bgGreen.black(`Você sacou ${amount} reais na sua conta`))
+    console.log(chalk.bgWhite.black(`Você tem ${account.balance} reais na sua conta`))
 }
