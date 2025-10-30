@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import fs, { fstatSync } from 'fs';
 import { isUtf8 } from 'buffer';
+import { get } from 'https';
 
 operation()
 
@@ -26,7 +27,7 @@ function operation(){
         if(answer.action === 'Criar conta'){
             crateAccount()
         } else if(answer.action === 'Consultar Saldo'){
-
+            getAccountbalance()
         } else if(answer.action === 'Depositar'){
             deposito()
         } else if(answer.action === 'Sacar'){
@@ -154,4 +155,31 @@ function getAccount(accountName){
     })
 
     return JSON.parse(accountJSON)
+}
+
+function getAccountbalance(){
+        inquirer.prompt([
+        {
+            name:'accountName',
+            message:'digite o nome da sua conta?',
+        }
+    ])
+    .then((answer => {
+
+        const account = answer['accountName']
+
+        if(!fs.existsSync(`accounts/${account}.json`)){
+            console.log(chalk.bgRed.black('Erro: Não existe uma conta com esse nome'))
+            getAccountbalance()
+        }else {
+            const accountName = getAccount(account)
+            console.log(chalk.bgWhite.black(`Você tem ${accountName.balance} reais na sua conta`))
+            operation()
+        }
+
+        
+    }))
+    .catch((e) => {
+        console.log(e)
+    })
 }
